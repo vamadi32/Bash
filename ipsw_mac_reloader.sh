@@ -57,6 +57,13 @@ main(){
         echo "✅ Folder path exists: $macVMPath"
         cd "$macVMPath" || { echo "Failed to change directory to $macVMPath"; exit 1; }
         ./macvdmtool "$mode"
+        error_code=$?
+        # exit if error
+        if [ $error_code -gt 0 ];then
+            echo "Something went wrong while running macvdm"
+            exit 0
+        fi
+        
         sleep 4
         # Confirm device attached
         attached_count=$(cfgutil list-devices | wc -l | awk '{print $NF}')
